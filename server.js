@@ -23,30 +23,10 @@ const io = new Server(server, {
 	transports: ["websocket", "polling"], // Certifique-se de que websocket está incluído
 });
 
-// io.on("connection", (socket) => {
-// 	console.log("a user connected");
-
-// 	socket.on("chat message", (msg) => {
-// 		console.log("message: " + msg);
-// 	});
-
-// 	socket.on("joinRoom", (data) => {
-// 		console.log(data);
-// 		console.log(socket.id);
-// 		const { userName, room } = data;
-// 		socket.join(room);
-// 		socket.emit(
-// 			"joinRoom",
-// 			`Olá ${userName}, bem vindo a sala ${room}`
-// 		);
-// 	});
-// });
-
 const users = {};
 io.on("connection", (socket) => {
 	socket.on("joinRoom", (data) => {
 		const { userName, room } = data;
-		console.log(socket);
 
 		console.log("msg from socket server.js | user: ", userName);
 		console.log("msg from socket server.js | room: ", room);
@@ -92,7 +72,7 @@ io.on("connection", (socket) => {
 			// Envia uma mensagem de saída para outros usuários na sala
 			socket.to(room).emit(
 				"leftRoom",
-				`${user.user} saiu da sala.`
+				`${user.userName} saiu da sala.`
 			);
 
 			// Atualiza a lista de usuários na sala
